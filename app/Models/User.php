@@ -25,12 +25,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
-
-    public function gravatar($size = '100')
-    {
-        $hash = md5(strtolower(trim($this->attributes['email'])));
-        return "http://www.gravatar.com/avatar/$hash?s=$size";
-    }
     public static function boot()
     {
         parent::boot();
@@ -39,6 +33,13 @@ class User extends Authenticatable
             $user->activation_token = str_random(30);
         });
     }
+
+    public function gravatar($size = '100')
+    {
+        $hash = md5(strtolower(trim($this->attributes['email'])));
+        return "http://www.gravatar.com/avatar/$hash?s=$size";
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
